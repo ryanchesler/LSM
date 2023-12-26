@@ -1,7 +1,7 @@
 # from warmup_scheduler import GradualWarmupScheduler
 import torch
 import torch.nn as nn
-import segmentation_models_pytorch as smp
+#import segmentation_models_pytorch as smp
 from externals.metrics import AverageMeter
 import torch.nn.functional as F
 
@@ -67,9 +67,9 @@ class GeneralizedFocalLoss(nn.Module):
 
         return focal_loss
 
-DiceLoss = smp.losses.DiceLoss(mode='binary')
-MulticlassDiceLoss = smp.losses.DiceLoss(mode='multilabel')
-BCELoss = smp.losses.SoftBCEWithLogitsLoss(smooth_factor=0)
+#DiceLoss = smp.losses.DiceLoss(mode='binary')
+#MulticlassDiceLoss = smp.losses.DiceLoss(mode='multilabel')
+#BCELoss = smp.losses.SoftBCEWithLogitsLoss(smooth_factor=0)
 alpha = torch.tensor([0, 1, 2])
 from torch.nn import MSELoss, L1Loss
 mean_squared_error = MSELoss()
