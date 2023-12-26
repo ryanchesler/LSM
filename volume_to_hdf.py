@@ -15,7 +15,7 @@ for layer in tqdm(layers[10000:]):
 
 # %%
 with h5py.File('/mnt/aged-star/volume.hdf5', "w") as f:
-    dset = f.create_dataset("20230205180739", shape=(layer_img.shape[0],layer_img.shape[1], len(layers)), dtype=np.uint8, chunks=True, shuffle=True, compression="lzf")
+    dset = f.create_dataset("20230205180739", shape=(layer_img.shape[0],layer_img.shape[1], len(layers)), dtype=np.uint8, chunks=True, shuffle=True, compression="gzip")
     # dset = f["scan_volume"]
     for layer_range in tqdm(range(0, len(layers), 256)):
         array_container = []
