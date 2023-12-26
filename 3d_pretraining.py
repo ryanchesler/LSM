@@ -177,6 +177,7 @@ def train_fn(train_loader, model, criterion, optimizer, device):
     for step, (images, labels) in pbar:
         images = images.to(torch.float16).to(device)
         labels = labels.to(torch.float16).to(device)
+        print(images.max(), images.min(), images.dtype)
         batch_size = labels.size(0)
         with torch.autocast(device_type="cuda"):
             y_preds = model(images)
