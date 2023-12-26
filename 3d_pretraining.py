@@ -226,9 +226,9 @@ train_loader = DataLoader(training_dataset, batch_size=CFG.train_batch_size, shu
 cfg_pairs = {value:CFG.__dict__[value] for value in dir(CFG) if value[1] != "_"}
 model_name = f"{CFG.exp_name}_{CFG.model_name}"
 
-# if os.path.exists("/home/ryanc/kaggle/working/outputs/vesuvius_3d/pretrain/vesuvius_3d-models/pretrain_3d_unet.pth"):
-#     print("/home/ryanc/kaggle/working/outputs/vesuvius_3d/pretrain/vesuvius_3d-models/pretrain_3d_unet.pth")
-#     model.load_state_dict(torch.load("/home/ryanc/kaggle/working/outputs/vesuvius_3d/pretrain/vesuvius_3d-models/pretrain_3d_unet.pth"))
+if os.path.exists("working/outputs/vesuvius_3d/pretrain/vesuvius_3d-models/pretrain_3d_unet.pth"):
+     print("working/outputs/vesuvius_3d/pretrain/vesuvius_3d-models/pretrain_3d_unet.pth")
+     model.load_state_dict(torch.load("working/outputs/vesuvius_3d/pretrain/vesuvius_3d-models/pretrain_3d_unet.pth"))
 
 model = torch.nn.DataParallel(model)
 model.to(device)
