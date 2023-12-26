@@ -96,7 +96,6 @@ class CustomDataset(Dataset):
         self.size = size
         self.coords = coords
         self.file = h5py.File("/mnt/aged-star/volume.hdf5", 'r')
-        self.shape = self.file["20230205180739"].shape
         self.cache_size = cache_size
         self.cache = {}
         self.cache_indices = []
@@ -121,10 +120,12 @@ class CustomDataset(Dataset):
     def _load_data(self, idx):
         invalid_volume = True
         while invalid_volume:
-            coords = [np.random.randint(0, self.shape[0] - self.cfg.size),
-                      np.random.randint(0, self.shape[1] - self.cfg.size),
-                      np.random.randint(0, self.shape[2] - self.cfg.size)]
-            volume = self.file["20230205180739"][coords[0]: (coords[0] + (self.cfg.size)),
+            scroll = np.random.choice(["20230205180739", "20230210143520"])
+            scroll_shape = self.file[scroll]
+            coords = [np.random.randint(0, scroll_shape[0] - self.cfg.size),
+                      np.random.randint(0, scroll_shape[1] - self.cfg.size),
+                      np.random.randint(0, scroll_shape[2] - self.cfg.size)]
+            volume = self.file[scroll][coords[0]: (coords[0] + (self.cfg.size)),
                                               coords[1]: (coords[1] + ((self.cfg.size))),
                                               coords[2]: (coords[2] + ((self.cfg.size)))] / 255.
             if volume.max() > 0.7 and volume.min() < 0.3:
