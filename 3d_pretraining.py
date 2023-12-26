@@ -47,7 +47,7 @@ class CFG:
     tile_size = 128
     in_chans = 1
 
-    train_batch_size = 128
+    train_batch_size = 16
     valid_batch_size = train_batch_size
     use_amp = True
 
