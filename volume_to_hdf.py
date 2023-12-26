@@ -1,6 +1,6 @@
 import cv2
 from tifffile import imread
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 import glob
 import h5py
 import numpy as np
