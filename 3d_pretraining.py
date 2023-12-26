@@ -47,7 +47,7 @@ class CFG:
     tile_size = 128
     in_chans = 1
 
-    train_batch_size = 16
+    train_batch_size = 64
     valid_batch_size = train_batch_size
     use_amp = True
 
@@ -177,7 +177,6 @@ def train_fn(train_loader, model, criterion, optimizer, device):
     for step, (images, labels) in pbar:
         images = images.to(torch.float16).to(device)
         labels = labels.to(torch.float16).to(device)
-        print(images.max(), images.min(), images.dtype)
         batch_size = labels.size(0)
         with torch.autocast(device_type="cuda"):
             y_preds = model(images)
