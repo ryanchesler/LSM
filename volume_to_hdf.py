@@ -6,7 +6,7 @@ import h5py
 import numpy as np
 
 # %%
-layers = glob.glob("/mnt/aged-star/20230205180739/*.tif")
+layers = glob.glob("/mnt/aged-star/20230210143520/*.tif")
 
 # %%
 for layer in tqdm(layers[10000:]):
@@ -14,8 +14,8 @@ for layer in tqdm(layers[10000:]):
     break
 
 # %%
-with h5py.File('/mnt/aged-star/volume.hdf5', "w") as f:
-    dset = f.create_dataset("20230205180739", shape=(layer_img.shape[0],layer_img.shape[1], len(layers)), dtype=np.uint8, chunks=True, shuffle=True, compression="lzf")
+with h5py.File('/mnt/aged-star/volume.hdf5', "r+") as f:
+    dset = f.create_dataset("20230210143520", shape=(layer_img.shape[0],layer_img.shape[1], len(layers)), dtype=np.uint8, chunks=True, shuffle=True, compression="lzf")
     # dset = f["scan_volume"]
     for layer_range in tqdm(range(0, len(layers), 256)):
         array_container = []
