@@ -175,8 +175,8 @@ def train_fn(train_loader, model, criterion, optimizer, device):
     losses = AverageMeter()
     pbar = tqdm(enumerate(train_loader), total=len(train_loader))
     for step, (images, labels) in pbar:
-        images = images.to(device)
-        labels = labels.to(device)
+        images = images.to(torch.float16).to(device)
+        labels = labels.to(torch.float16).to(device)
         batch_size = labels.size(0)
         with torch.autocast(device_type="cuda"):
             y_preds = model(images)
@@ -202,8 +202,8 @@ def valid_fn(valid_loader, model, criterion, device):
         batch_size = labels.size(0)
         with torch.no_grad():
             with torch.autocast(device_type="cuda"):
-                images = images.to(device)
-                labels = labels.to(device)
+                images = images.to(torch.float16).to(device)
+                labels = labels.to(torch.float16).to(device)
                 y_preds = model(images)
                 loss = criterion(y_preds[images == -1], labels[images == -1]).mean()
         pbar.set_description_str(str(losses.avg))
