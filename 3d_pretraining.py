@@ -129,7 +129,7 @@ class CustomDataset(Dataset):
                                               coords[1]: (coords[1] + ((self.cfg.size))),
                                               coords[2]: (coords[2] + ((self.cfg.size)))] / 255.
             # if volume.max() > 0.7 and volume.min() < 0.3:
-            #     invalid_volume = False
+            invalid_volume = False
         volume = volume.astype(np.float16)
         image = volume.copy()
         for _ in range(4):
