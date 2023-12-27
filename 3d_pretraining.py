@@ -37,7 +37,7 @@ class CFG:
     comp_dataset_path = f'{comp_dir_path}{comp_folder_name}/'
     # ========================
     
-    exp_name = 'pretrain_1_2'
+    exp_name = 'pretrain_1_2_all'
     # ============== pred target =============
     target_size = 1
     # ============== model cfg =============
@@ -120,7 +120,7 @@ class CustomDataset(Dataset):
     def _load_data(self, idx):
         invalid_volume = True
         while invalid_volume:
-            scroll = np.random.choice(["20230205180739", "20230210143520"])
+            scroll = random.choice(["20230205180739", "20230210143520"])
             scroll_shape = self.file[scroll].shape
             coords = [np.random.randint(0, scroll_shape[0] - self.cfg.size),
                       np.random.randint(0, scroll_shape[1] - self.cfg.size),
@@ -128,8 +128,8 @@ class CustomDataset(Dataset):
             volume = self.file[scroll][coords[0]: (coords[0] + (self.cfg.size)),
                                               coords[1]: (coords[1] + ((self.cfg.size))),
                                               coords[2]: (coords[2] + ((self.cfg.size)))] / 255.
-            if volume.max() > 0.7 and volume.min() < 0.3:
-                invalid_volume = False
+            # if volume.max() > 0.7 and volume.min() < 0.3:
+            #     invalid_volume = False
         volume = volume.astype(np.float16)
         image = volume.copy()
         for _ in range(4):
@@ -144,29 +144,31 @@ class CustomDataset(Dataset):
         return image[None], volume[None]
 
     def __getitem__(self, idx):
-        if (random.random() > 0.5) and (len(self.cache_indices) > 1000):
-            while True:
-                try:
-                    random_idx = random.choice(self.cache_indices)
-                    random_sample = self.cache[random_idx]
-                    break
-                except:
-                    pass
-            return random_sample
-        else:
-            data = self._load_data(idx)
-            if len(self.cache) < self.cache_size:
-                self.cache[idx] = data
-                self.cache_indices.append(idx)
-            else:
-                replace_idx = random.choice(self.cache_indices)
-                try:
-                    del self.cache[replace_idx]
-                except:
-                    pass
-                self.cache[idx] = data
-                self.cache_indices[self.cache_indices.index(replace_idx)] = idx
-            return data
+        data = self._load_data(idx)
+
+        # if (random.random() > 1) and (len(self.cache_indices) > 1000):
+        #     while True:
+        #         try:
+        #             random_idx = random.choice(self.cache_indices)
+        #             random_sample = self.cache[random_idx]
+        #             break
+        #         except:
+        #             pass
+        #     return random_sample
+        # else:
+        #     data = self._load_data(idx)
+            # if len(self.cache) < self.cache_size:
+            #     self.cache[idx] = data
+            #     self.cache_indices.append(idx)
+            # else:
+            #     replace_idx = random.choice(self.cache_indices)
+            #     try:
+            #         del self.cache[replace_idx]
+            #     except:
+            #         pass
+            #     self.cache[idx] = data
+            #     self.cache_indices[self.cache_indices.index(replace_idx)] = idx
+        return data
         
     
 def train_fn(train_loader, model, criterion, optimizer, device):
