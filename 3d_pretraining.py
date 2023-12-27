@@ -10,7 +10,7 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Dataset
 import cv2
 from externals.utils import cfg_init
-from externals.models import Unet3D_full3d_shallow
+from externals.models import Unet3D_full3d_shallow, Unetr
 from externals.metrics import AverageMeter
 from externals.training_procedures import get_scheduler, scheduler_step
 import wandb
@@ -37,11 +37,11 @@ class CFG:
     comp_dataset_path = f'{comp_dir_path}{comp_folder_name}/'
     # ========================
     
-    exp_name = 'pretrain_1_2_all'
+    exp_name = 'pretrain_1_2_all_unetr'
     # ============== pred target =============
     target_size = 1
     # ============== model cfg =============
-    model_name = '3d_unet'
+    model_name = '3d_unetr'
     # ============== training cfg =============
     size = 128
     tile_size = 128
@@ -84,7 +84,7 @@ cfg_init(CFG)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = Unet3D_full3d_shallow(CFG)
+model = Unetr(CFG)
 
 class CustomDataset(Dataset):
     def __init__(self, volume_path, cfg, labels=None, transform=None, mode="test", size=1000, coords=None, cache_size=10000):
