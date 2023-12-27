@@ -121,7 +121,7 @@ class CustomDataset(Dataset):
         invalid_volume = True
         while invalid_volume:
             scroll = np.random.choice(["20230205180739", "20230210143520"])
-            scroll_shape = self.file[scroll]
+            scroll_shape = self.file[scroll].shape
             coords = [np.random.randint(0, scroll_shape[0] - self.cfg.size),
                       np.random.randint(0, scroll_shape[1] - self.cfg.size),
                       np.random.randint(0, scroll_shape[2] - self.cfg.size)]
