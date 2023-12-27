@@ -5,7 +5,7 @@ from torch import nn
 class Unetr(nn.Module):
     def __init__(self, cfg):
         super().__init__()
-        self.model = UNETR(in_channels=1, out_channels=1, img_size=(CFG.size,CFG.size,CFG.size), proj_type='conv', norm_name='instance', )
+        self.model = UNETR(in_channels=1, out_channels=1, img_size=(cfg.size,cfg.size,cfg.size), proj_type='conv', norm_name='instance')
     def forward(self, volume):
         output = self.model(volume)
         return output
