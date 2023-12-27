@@ -37,7 +37,7 @@ class CFG:
     comp_dataset_path = f'{comp_dir_path}{comp_folder_name}/'
     # ========================
     
-    exp_name = 'pretrain'
+    exp_name = 'pretrain_1_2'
     # ============== pred target =============
     target_size = 1
     # ============== model cfg =============
@@ -238,7 +238,8 @@ optimizer = AdamW(model.parameters(), lr=CFG.lr, weight_decay=CFG.weight_decay)
 scheduler = get_scheduler(CFG, optimizer)
 
 wandb.init(
-    project="LSM"
+    project="LSM",
+    name=CFG.exp_name
 )
 
 for epoch in range(CFG.epochs):
