@@ -37,11 +37,11 @@ class CFG:
     comp_dataset_path = f'{comp_dir_path}{comp_folder_name}/'
     # ========================
     
-    exp_name = 'pretrain_1_2_all_unetr'
+    exp_name = 'pretrain_1_2_all_unet'
     # ============== pred target =============
     target_size = 1
     # ============== model cfg =============
-    model_name = '3d_unetr'
+    model_name = '3d_unet'
     # ============== training cfg =============
     size = 128
     tile_size = 128
@@ -84,7 +84,7 @@ cfg_init(CFG)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-model = Unetr(CFG)
+model = Unet3D_full3d_shallow(CFG)
 
 class CustomDataset(Dataset):
     def __init__(self, volume_path, cfg, labels=None, transform=None, mode="test", size=1000, coords=None, cache_size=10000):
@@ -243,12 +243,14 @@ wandb.init(
     project="LSM",
     name=CFG.exp_name
 )
-
+best_loss = 10000
 for epoch in range(CFG.epochs):
     # train
     avg_loss = train_fn(train_loader, model, criterion, optimizer, device)
-    torch.save(model.module.state_dict(),
-            CFG.model_dir + f"{model_name}.pth")
+    if avg_loss < best_loss:
+        torch.save(model.module.state_dict(),
+                CFG.model_dir + f"{model_name}.pth")
+        best_loss = avg_loss
     wandb.log({"avg_train_loss":avg_loss})
     print({"avg_train_loss":avg_loss})
     scheduler_step(scheduler, None, epoch)
