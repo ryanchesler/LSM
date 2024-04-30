@@ -38,6 +38,7 @@ https://drive.google.com/file/d/1QdWAbbTRAC5oiMCYo_TADVyCM6b9Emdw/view?usp=shari
 ## Results on downstream ink detection training
 This model was later finetuned on ink detection data that was mapped to 3d. These are the results after only 1 epoch of training following the pretraining step.
 
+```
 Pretraining 1 hour
 validation dice 0.4867855717078965
 {‘avg_train_loss’: 0.3248909587883949, ‘avg_val_loss’: 0.32889398968148376}
@@ -49,5 +50,6 @@ validation dice 0.5166384899821148
 Pretrained 24 hours
 validation dice 0.535030485409383
 {‘avg_train_loss’: 0.31709596128463746, ‘avg_val_loss’: 0.30348434508917577}
+```
 
 The final checkpoint was not benchmarked, but the trend is expected to continue and give the added benefit of instilling some scroll 2 knowledge. I dont expect this to make a yield great scroll 2 ink findings without ink labels on it but it should aid the model in picking it up more easily if some labels are found to train against. 
